@@ -1,12 +1,7 @@
 package com.examples.e02_djpm.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import coil.compose.AsyncImage
 import com.examples.e02_djpm.R
 import com.examples.e02_djpm.models.Article
 import com.examples.e02_djpm.toYYYYMMDD
@@ -27,39 +22,56 @@ import java.util.Date
 
 @Composable
 fun RowArticle(modifier: Modifier = Modifier, article: Article) {
-    Row(modifier = modifier) {
-        article.urlToImage?.let {
+    Row(modifier = modifier
+        .fillMaxWidth()
+        .padding(8.dp)) {
+
+        val imageUrl = article.urlToImage?.takeIf { it.isNotEmpty() && it != "null" }
+
+        if (imageUrl != null) {
             AsyncImage(
-                model = it,
+                model = imageUrl,
                 contentDescription = "image article",
                 modifier = Modifier
                     .height(120.dp)
                     .width(120.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .padding(6.dp),
+                    .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop
             )
-        } ?: run {
+        } else {
             Image(
                 modifier = Modifier
                     .height(120.dp)
                     .width(120.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .padding(6.dp),
+                    .clip(RoundedCornerShape(8.dp)),
                 painter = painterResource(id = R.mipmap.img_place_holder),
                 contentDescription = "image article",
                 contentScale = ContentScale.Crop,
             )
         }
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Text(text = article.title?: "",
+
+        Column(modifier = Modifier
+            .padding(start = 8.dp)
+            .fillMaxWidth()) {
+
+            Text(
+                text = article.title?.takeIf { it.isNotEmpty() && it != "null" } ?: "No Title Available",
                 style = MaterialTheme.typography.titleLarge,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis,)
-            Text(text = article.description?: "",
-                maxLines = 4,
-                overflow = TextOverflow.Ellipsis,)
-            Text(text = article.publishedAt?.toYYYYMMDD()?:"")
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Text(
+                text = article.description?.takeIf { it.isNotEmpty() && it != "null" } ?: "No description available",
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Text(
+                text = article.publishedAt?.toYYYYMMDD() ?: "Unknown Date",
+                style = MaterialTheme.typography.bodySmall
+            )
         }
     }
 }
