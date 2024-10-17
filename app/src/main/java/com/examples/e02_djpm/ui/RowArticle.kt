@@ -14,19 +14,22 @@ import java.util.Date
 
 @Composable
 fun RowArticle(modifier: Modifier = Modifier, article: Article) {
-    Row(modifier = modifier
-        .fillMaxWidth()
-        .padding(8.dp)) {
-
-        Column(modifier = Modifier
-            .fillMaxWidth()) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(12.dp)
+    ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
 
             Text(
                 text = article.title ?: "No Title Available",
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(bottom = 8.dp)
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
@@ -35,12 +38,14 @@ fun RowArticle(modifier: Modifier = Modifier, article: Article) {
 @Composable
 fun RowArticlePreview() {
     E02DJPMTheme {
-        RowArticle(article = Article(
-            "Sample Title",
-            null,
-            null,
-            "url",
-            Date()
-        ))
+        RowArticle(
+            article = Article(
+                "Sample Title",
+                null,
+                null,
+                "url",
+                Date()
+            )
+        )
     }
 }
