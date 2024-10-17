@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "P02-DJPM"
+rootProject.name = "E02DJPM"
 include(":app")
  
